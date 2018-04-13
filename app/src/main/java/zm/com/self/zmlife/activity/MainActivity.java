@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         bottomNavigationBar.setBarBackgroundColor(R.color.tabbarbackground);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);//设置导航栏背景模式
         bottomNavigationBar// .setActiveColorResource(Color.BLUE)//设置BottomNavigationItem颜色
-                .addItem(new BottomNavigationItem(R.mipmap.ic_import_contacts_black_36dp, "杂志").setInactiveIconResource(R.mipmap.ic_import_contacts_white_36dp).setActiveColor(Color.BLUE))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_border_color_black_36dp, "记录").setInactiveIconResource(R.mipmap.ic_border_color_white_36dp).setActiveColor(Color.GREEN))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_content_copy_black_36dp, "八卦").setInactiveIconResource(R.mipmap.ic_content_copy_white_36dp).setActiveColor(Color.RED))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_import_contacts_black_36dp, "杂志").setInactiveIconResource(R.mipmap.ic_import_contacts_white_36dp).setActiveColor(Color.YELLOW))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_border_color_black_36dp, "记录").setInactiveIconResource(R.mipmap.ic_border_color_white_36dp).setActiveColor(Color.YELLOW))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_content_copy_black_36dp, "八卦").setInactiveIconResource(R.mipmap.ic_content_copy_white_36dp).setActiveColor(Color.YELLOW))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_business_black_36dp, "设置").setInactiveIconResource(R.mipmap.ic_business_white_36dp).setActiveColor(Color.YELLOW))//.setBadgeItem(badgeItem)
                 .setFirstSelectedPosition(0)
                 .initialise();

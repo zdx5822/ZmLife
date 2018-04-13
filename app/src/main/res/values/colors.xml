@@ -5,4 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="tabbarbackground">#FF3030</color>
     <color name="title_main_background">#FF4500</color>
+
+
+    <color name="color_theme">#489cfa</color>
+    <color name="color_theme1">#00ff00</color>
+    <color name="transparent">#00000000</color>
+    <color name="yellow">#fc9630</color>
+    <color name="red">#ff0000</color>
 </resources>

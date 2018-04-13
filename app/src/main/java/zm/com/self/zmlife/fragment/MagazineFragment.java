@@ -6,30 +6,27 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,9 +105,6 @@ public class MagazineFragment extends Fragment {
         //图表进入的动画时间
         mChart.animateX(1000);
         // add data
-        if (userRecordInfoList_all != null && userRecordInfoList_all.size() > 0) {
-            setData(userRecordInfoList_all.size());
-        }
         //描述信息
         Description description = new Description();
         description.setText("");
@@ -154,15 +148,12 @@ public class MagazineFragment extends Fragment {
         xAxis.setDrawAxisLine(false);
         //TODO 设置x轴坐标显示的数量  加true才能显示设置的数量 一旦加true后续的x轴数据显示有问题,
         // xAxis.setLabelCount(5,true);
-        if(userRecordInfoList_all.size()>0){
-            xAxis.setLabelCount(userRecordInfoList_all.size());
-        }
 
         //设置竖线为虚线样子
         xAxis.enableGridDashedLine(10f, 10f, 0f);
         /********************************************************************************/
         //图表第一个和最后一个label数据不超出左边和右边的Y轴
-        // xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setAvoidFirstLastClipping(true);
         //设置限制线 70代表某个该轴某个值，也就是要画到该轴某个值上
 //        LimitLine limitLine = new LimitLine(70);
         //设置限制线的宽
@@ -176,25 +167,9 @@ public class MagazineFragment extends Fragment {
 //        limitLine.enableDashedLine(10f, 10f, 0f);
         /********************************************************************************/
 
-        final Map<Integer, String> xMap = new HashMap<>();
-
-        final String[] valueArry = new String[userRecordInfoList_all.size()];
-
-        if (userRecordInfoList_all.size() > 0) {
-            for (int i = 0; i < userRecordInfoList_all.size(); i++) {
-                valueArry[i] = userRecordInfoList_all.get(i).getDate();
-            }
-
-            for (int i = 0; i < yVals1.size(); i++) {
-                xMap.put((int) yVals1.get(i).getX(), valueArry[i]);
-            }
-            //自定义x轴标签数据
-            xAxis.setValueFormatter(new IAxisValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
-                    return xMap.get((int) value);
-                }
-            });
+        if (userRecordInfoList_all != null && userRecordInfoList_all.size() > 0) {
+            setYData(userRecordInfoList_all.size());
+            setXData();
         }
         /********************************************************************************/
 
@@ -227,7 +202,33 @@ public class MagazineFragment extends Fragment {
         rightAxis.setGranularityEnabled(false);
     }
 
-    private void setData(int count) {
+
+    private void setXData() {
+        final Map<Integer, String> xMap = new HashMap<>();
+
+        final String[] valueArry = new String[userRecordInfoList_all.size()];
+
+        xAxis.setLabelCount(userRecordInfoList_all.size());
+
+        for (int i = 0; i < userRecordInfoList_all.size(); i++) {
+            String date = userRecordInfoList_all.get(i).getDate();
+            String[] datesp = date.split("-");
+            valueArry[i] = datesp[1] + datesp[2];
+        }
+
+        for (int i = 0; i < yVals1.size(); i++) {
+            xMap.put((int) yVals1.get(i).getX(), valueArry[i]);
+        }
+        //自定义x轴标签数据
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xMap.get((int) value);
+            }
+        });
+    }
+
+    private void setYData(int count) {
         yVals1 = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
@@ -333,10 +334,9 @@ public class MagazineFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         userRecordInfoList_all = userRecordInfoDao.loadAll();
-        setData(userRecordInfoList_all.size());
-//        mChart.invalidate();
-        mChart.getData().notifyDataChanged();
-        mChart.notifyDataSetChanged();
+        setYData(userRecordInfoList_all.size());
+        setXData();
+        mChart.invalidate();
     }
 
     @Override

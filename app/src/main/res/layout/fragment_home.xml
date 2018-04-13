@@ -1,13 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshLayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/act_recycler_variety_recycler"
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/pst"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:background="@color/color_theme"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:background="#fff" />
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_below="@+id/pst" />
+
+</RelativeLayout>
+
+
